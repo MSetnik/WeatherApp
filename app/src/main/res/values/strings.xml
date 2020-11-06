@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WeatherAppJava</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="celsius_symbol">°C</string>
+    <string name="pressure_symbol">hPa</string>
+    <string name="humidity_symbol">%</string>
+</resources>
