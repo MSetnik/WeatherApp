@@ -5,26 +5,39 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 public class CurrentWeather {
-    @SerializedName("name")
-    private String city;
+    private Coord coord;
     private ArrayList<Weather> weather;
     private Main main;
+    @SerializedName("dt")
+    private String date;
+    @SerializedName("name")
+    private String cityName;
 
-    public CurrentWeather(String city,ArrayList<Weather> weathers, Main main) {
-        this.weather = weathers;
+    public CurrentWeather(Coord coord, ArrayList<Weather> weather, Main main, String date, String cityName) {
+        this.coord = coord;
+        this.weather = weather;
         this.main = main;
-        this.city = city;
+        this.date = date;
+        this.cityName = cityName;
+    }
+
+    public Coord getCoord() {
+        return coord;
     }
 
     public ArrayList<Weather> getWeather() {
         return weather;
     }
 
-    public Main getMain() {
+    public Main getMainWeather() {
         return main;
     }
 
-    public String getCity() {
-        return city;
+    public String getDate() {
+        return date;
+    }
+
+    public String getCityName() {
+        return cityName;
     }
 }

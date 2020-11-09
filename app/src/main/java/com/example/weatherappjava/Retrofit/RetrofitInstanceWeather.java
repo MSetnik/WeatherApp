@@ -9,7 +9,7 @@ public class RetrofitInstanceWeather {
     public static Retrofit getInstance() {
         if (oInstance == null) {
             oInstance = new Retrofit.Builder()
-                    .baseUrl("https://api.openweathermap.org/data/2.5/")
+                    .baseUrl("https://api.openweathermap.org/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 

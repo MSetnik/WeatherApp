@@ -5,12 +5,11 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.weatherappjava.Interface.WaitForCurrentWeatherInterface;
-import com.example.weatherappjava.Model.CitySearch.City;
-import com.example.weatherappjava.Model.CitySearch.Records;
+import com.example.weatherappjava.Interface.WaitForForecastInterface;
 import com.example.weatherappjava.Model.CurrentWeather.CurrentWeather;
-import com.example.weatherappjava.Retrofit.CityApi;
+import com.example.weatherappjava.Model.CurrentWeather.Forecast;
 import com.example.weatherappjava.Retrofit.CurrentWeatherApi;
-import com.example.weatherappjava.Retrofit.RetrofitInstanceCity;
+import com.example.weatherappjava.Retrofit.ForecastApi;
 import com.example.weatherappjava.Retrofit.RetrofitInstanceWeather;
 
 import retrofit2.Call;
@@ -22,7 +21,8 @@ public class Repository {
     private static final String TAG = "MyApp";
     private CurrentWeather currentWeather;
     private WaitForCurrentWeatherInterface waitForCurrentWeatherInterface;
-    private MutableLiveData<CurrentWeather> newsData = new MutableLiveData<>();
+    private WaitForForecastInterface waitForForecastInterface;
+    private MutableLiveData<Forecast> newsData = new MutableLiveData<>();
 
 
     // Weather Api Call
@@ -52,25 +52,29 @@ public class Repository {
         this.waitForCurrentWeatherInterface = waitForCurrentWeatherInterface;
     }
 
+    // Weather Api Call
+    public void GetForecast(String city) {
+        Retrofit retrofit = RetrofitInstanceWeather.getInstance();
 
-    // City api call
-    public void GetCity(String city) {
-        Retrofit retrofit = RetrofitInstanceCity.getInstance();
+        ForecastApi forecastApi = retrofit.create(ForecastApi.class);
 
-        CityApi cityApi = retrofit.create(CityApi.class);
+        Call<Forecast> call = forecastApi.getForecast(city);
 
-        Call<Records> call = cityApi.getCity(city);
-
-        call.enqueue(new Callback<Records>() {
+        call.enqueue(new Callback<Forecast>() {
             @Override
-            public void onResponse(Call<Records> call, Response<Records> response) {
-                Log.d(TAG, "onResponse: " + response.body());
+            public void onResponse(Call<Forecast> call, Response<Forecast> response) {
+                waitForForecastInterface.GetForecast(response.body());
+                Log.d(TAG, "onResponse: success");
             }
 
             @Override
-            public void onFailure(Call<Records> call, Throwable t) {
-                Log.d(TAG, "onFailure: " +t.getMessage());
+            public void onFailure(Call<Forecast> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    public void SetOnForecastFinishListener(WaitForForecastInterface waitForForecastInterface) {
+        this.waitForForecastInterface = waitForForecastInterface;
     }
 }

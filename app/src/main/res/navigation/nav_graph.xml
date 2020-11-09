@@ -13,10 +13,20 @@
         <action
             android:id="@+id/action_currentWeatherFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <argument
+            android:name="searchInput"
+            android:defaultValue="Valpovo"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.weatherappjava.Fragment.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_currentWeatherFragment"
+            app:destination="@id/currentWeatherFragment"
+            app:popUpTo="@id/currentWeatherFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
